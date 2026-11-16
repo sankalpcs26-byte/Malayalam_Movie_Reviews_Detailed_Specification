@@ -1,5 +1,8 @@
 name: contributor Training
 on:
+  push:
+    branches:
+      - main
   pull_request:
     types: [opened, closed]
     branches:
@@ -14,7 +17,7 @@ concurrency:
 
 jobs:
   update-contributor:
-    if: github.event.action == 'opened' || github.event.pull_request.merged == true
+    if: github.event_name == 'push' || github.event.action == 'opened' || github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
