@@ -1,0 +1,43 @@
+name: contributor Training
+on:
+  pull_request:
+    types: [opened, closed]
+    branches:
+      - main
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: contributor-traking-main
+  cancel-in-progress: true
+
+jobs:
+  update-contributor:
+    if: github.event.action == 'opened' || github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Update contributors
+        uses: ./.github/actions/update-contributors
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          python scripts/update_contributors.py\
+      - name: Commit updated records
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add README.md data/contributor-log.json
+
+          if ! git diff --cached --quiet; then
+            git commit -m "docs: update contributor tracking"
+            git push origin HEAD:main
+          else
+            echo "No contributor changes detected."
+          fi
