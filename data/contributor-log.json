@@ -1,1 +1,15 @@
-
+{
+  "version": 1,
+  "last_updated": "2026-11-16T18:44:30.382073+00:00",
+  "pull_requests": [
+    {
+      "number": 1,
+      "merged_at": "2026-11-16T09:27:10Z",
+      "name": "Chetan Krishna",
+      "login": "chetancs26",
+      "tasks": "readme done chetan26 — `README.md`",
+      "commits": "[`6963464`](https://github.com/sankalpcs26-byte/Malayalam_Movie_Reviews_Detailed_Specification/commit/6963464da16b3e962bcbcd559bb4873b29d1bf2d)",
+      "url": "https://github.com/sankalpcs26-byte/Malayalam_Movie_Reviews_Detailed_Specification/pull/1"
+    }
+  ]
+}

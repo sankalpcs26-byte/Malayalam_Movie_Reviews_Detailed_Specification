@@ -54,5 +54,6 @@ The standalone interactive Plotly dashboard is generated locally as an offline H
 
 | Contributor Name | GitHub Handle | Assigned Module / Tasks | Verified Commit Hash Range | Merged Pull Request |
 | :--------------- | :------------ | :---------------------- | :------------------------- | :------------------ |
+| Chetan Krishna | `@chetancs26` | readme done chetan26 — `README.md` | [`6963464`](https://github.com/sankalpcs26-byte/Malayalam_Movie_Reviews_Detailed_Specification/commit/6963464da16b3e962bcbcd559bb4873b29d1bf2d) | [#1](https://github.com/sankalpcs26-byte/Malayalam_Movie_Reviews_Detailed_Specification/pull/1) |
 
 <!-- CONTRIBUTOR-LOG:END -->
