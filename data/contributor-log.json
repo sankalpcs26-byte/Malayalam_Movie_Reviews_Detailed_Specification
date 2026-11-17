@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "last_updated": "2026-11-16T18:44:30.382073+00:00",
+  "last_updated": "2026-11-17T07:11:22.191790+00:00",
   "pull_requests": [
     {
       "number": 1,
@@ -10,6 +10,15 @@
       "tasks": "readme done chetan26 — `README.md`",
       "commits": "[`6963464`](https://github.com/sankalpcs26-byte/Malayalam_Movie_Reviews_Detailed_Specification/commit/6963464da16b3e962bcbcd559bb4873b29d1bf2d)",
       "url": "https://github.com/sankalpcs26-byte/Malayalam_Movie_Reviews_Detailed_Specification/pull/1"
+    },
+    {
+      "number": 2,
+      "merged_at": "2026-11-17T07:11:08Z",
+      "name": "sankalpcs26-byte",
+      "login": "sankalpcs26-byte",
+      "tasks": "envirnment setup by team lead — `data/processed/clean_malayalam_movies.csv`, `data/processed/movie_reviews_audit.log`, `data/raw/malayalam_movie_reviews_raw.csv`, `notebooks/development_cycle.ipynb`, `src/ingestion.py`",
+      "commits": "[`3058de9`](https://github.com/sankalpcs26-byte/Malayalam_Movie_Reviews_Detailed_Specification/commit/3058de9e8e0d595b729d3b35912d6442fc24d977)",
+      "url": "https://github.com/sankalpcs26-byte/Malayalam_Movie_Reviews_Detailed_Specification/pull/2"
     }
   ]
 }
