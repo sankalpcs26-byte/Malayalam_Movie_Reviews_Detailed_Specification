@@ -37,7 +37,7 @@ print("Anomalous Values:",data[anomaly])
 #4.6
 #constructin masked subset
 
-anomalies=set(data[anomaly_mask])
+anomalies=set(data[anomaly])
 threshold_anomalies=set(data[data > 30])
 
 print("Detected anomalies:",anomalies)
@@ -52,7 +52,7 @@ else:
 #4.7
 #Exact count
 
-count =np.sum(anomaly_mask)
+count =np.sum(anomaly)
 percentage=(count / len(data)) * 100
 
 print("Number of Anomalies:",count)
