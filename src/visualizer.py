@@ -4,6 +4,7 @@ import re
 from collections import Counter
 import math
 import seaborn as sns
+import plotly.express as px
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
 plt.rcParams["font.family"] = "Nirmala UI"
@@ -263,3 +264,76 @@ if __name__ == "__main__":
     plt.savefig("q11_confusion_matrix.png", dpi=300, bbox_inches="tight")
     plt.show()
     plt.close()
+
+    #Q12 : Interactive Movie Review polarity dashboard
+
+    dashboard_data = df[["Id", "Review", "Sentiment"]].copy()
+    def calculate_review_metrics(review):
+        words = extract_malayalam_words(review)
+        review_length = len(words)
+        scores = [log_odds[word] for word in words if word in log_odds]
+        sentiment_score = sum(scores) / len(scores) if scores else 0
+        return review_length, sentiment_score
+
+    dashboard_metrics = dashboard_data["Review"].apply(calculate_review_metrics)
+    dashboard_data["Review_Length"] = dashboard_metrics.apply(lambda x: x[0])
+    dashboard_data["Sentiment_Score"] = dashboard_metrics.apply(lambda x: x[1])
+    dashboard_data["Polarity"] = dashboard_data["Sentiment"].map({0: "Negative", 1: "Positive"})
+    print("\nDashboard Data Sample : ")
+    print(dashboard_data[["Review_Length", "Sentiment_Score", "Polarity"]].head())
+
+    fig = px.scatter(
+        dashboard_data,
+        x="Review_Length",
+        y="Sentiment_Score",
+        color="Polarity",
+        category_orders={"Polarity": ["Negative", "Positive"]},
+        color_discrete_map={"Negative": "red", "Positive": "green"},
+        hover_data={
+            "Id": True,
+            "Review": True,
+            "Review_Length": True,
+            "Sentiment_Score": ":.3f",
+            "Polarity": True
+        },
+        title="Interactive Movie Review Polarity Dashboard",
+        labels={
+            "Review_Length": "Review Length (words)",
+            "Sentiment_Score": "Sentiment Score"
+        }
+    )
+    fig.update_layout(
+        template="plotly_white",
+        hovermode="closest"
+    )
+
+    fig.update_layout(
+        updatemenus=[
+            dict(
+                buttons=[
+                    dict(
+                        label="All Reviews",
+                        method="update",
+                        args=[{"visible": [True, True]}]
+                    ),
+                    dict(
+                        label="Negative Reviews",
+                        method="update",
+                        args=[{"visible": [True, False]}]
+                    ),
+                    dict(
+                        label="Positive Reviews",
+                        method="update",
+                        args=[{"visible": [False, True]}]
+                    )
+                ],
+                direction="down",
+                x=1.0,
+                y=1.15,
+                showactive=True
+
+            )
+        ]
+    )
+    fig.write_html("interactive_movie_review_dashboard.html")
+    print("\nInteractive Movie Review Polarity Dashboard saved as 'interactive_movie_review_dashboard.html'")
