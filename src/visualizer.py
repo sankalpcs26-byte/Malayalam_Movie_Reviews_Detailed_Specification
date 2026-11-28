@@ -3,8 +3,14 @@ import unicodedata
 import re
 from collections import Counter
 import math
+import seaborn as sns
 import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
 plt.rcParams["font.family"] = "Nirmala UI"
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix
 
 #morphological feature extraction function
 
@@ -180,3 +186,80 @@ if __name__ == "__main__":
     plt.tight_layout()
     plt.savefig("top12_negative_opinion_words.png",dpi=300,bbox_inches="tight")
     plt.show()
+
+    #Q11 : Seaborn Violin plot
+
+    violin_data = df[["Sentiment","Chillaksharams","Vowel_Signs"]].melt(
+        id_vars="Sentiment",
+        var_name="Feature",
+        value_name="Frequency"
+    )
+
+    plt.figure(figsize=(10,6))
+    sns.violinplot(
+        x="Feature",
+        y="Frequency",
+        hue="Sentiment",
+        data=violin_data,
+        split=True,
+        inner="quart",
+        palette={0: "red", 1: "green"}
+    )
+    legend_elements = [
+        Patch(facecolor="red", label="Negative"),
+        Patch(facecolor="green", label="Positive")
+    ]
+    plt.legend(handles=legend_elements, title="Sentiment")
+    plt.title("Morphological Feature  Distribution by Sentiment")
+    plt.xlabel("Morphological Feature")
+    plt.ylabel("Frequency")
+    plt.xticks(
+        ticks=[0, 1],
+        labels=["Chillaksharams", "Vowel Signs"]
+    )
+
+    sns.despine()
+    plt.tight_layout()
+    plt.savefig("q11_morphological_feature_distribution.png", dpi=300, bbox_inches="tight")
+    plt.show()
+    plt.close()
+
+    #confusion matrix
+
+    X = df["Review"].fillna("").astype(str)
+    y = df["Sentiment"]
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, 
+        y, 
+        test_size=0.2, 
+        random_state=42,
+        stratify=y
+    )
+    tfidf = TfidfVectorizer(
+        max_features=5000,
+        ngram_range=(1, 2)
+    )
+    X_train_tfidf = tfidf.fit_transform(X_train)
+    X_test_tfidf = tfidf.transform(X_test)
+    model = LogisticRegression(max_iter=1000)
+    model.fit(X_train_tfidf, y_train)
+    y_pred = model.predict(X_test_tfidf)
+
+    cm = confusion_matrix(y_test, y_pred, labels=[0, 1])
+    plt.figure(figsize=(7, 5))
+    sns.heatmap(
+        cm,
+        annot=True,
+        fmt="d",
+        cmap="Blues",
+        xticklabels=["Negative", "Positive"],
+        yticklabels=["Negative", "Positive"]
+    )
+    plt.title("Sentiment Classification Confusion Matrix")
+    plt.xlabel("Predicted Sentiment")
+    plt.ylabel("Actual Sentiment")
+    sns.despine()
+    plt.tight_layout()
+    plt.savefig("q11_confusion_matrix.png", dpi=300, bbox_inches="tight")
+    plt.show()
+    plt.close()
